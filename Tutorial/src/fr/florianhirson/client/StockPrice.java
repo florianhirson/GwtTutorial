@@ -1,6 +1,8 @@
 package fr.florianhirson.client;
 
-public class StockPrice {
+import java.io.Serializable;
+
+public class StockPrice implements Serializable{
 	private String symbol;
 	private double price;
 	private double change;
@@ -27,7 +29,7 @@ public class StockPrice {
 	}
 
 	public double getChangePercent() {
-		return 10.0 * this.change / this.price;
+		return 100.0 * this.change / this.price;
 	}
 
 	public void setSymbol(String symbol) {
