@@ -1,7 +1,7 @@
 package fr.florianhirson.client;
 
 import java.util.ArrayList;
-
+import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -9,7 +9,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -19,7 +21,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.Random;
 
 public class Tutorial  implements EntryPoint {
 	private static final int REFRESH_INTERVAL = 5000; // ms
@@ -153,6 +154,12 @@ public class Tutorial  implements EntryPoint {
 		for (int i = 0; i < prices.length; i++) {
 			updateTable(prices[i]);
 		}
+
+		// Display timestamp showing last refresh.
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat(
+				DateTimeFormat.PredefinedFormat.DATE_TIME_MEDIUM);
+		lastUpdatedLabel.setText("Last update : " 
+				+ dateFormat.format(new Date()));
 	}
 
 	/**
