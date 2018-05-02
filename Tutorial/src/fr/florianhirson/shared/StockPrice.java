@@ -1,4 +1,4 @@
-package fr.florianhirson.client;
+package fr.florianhirson.shared;
 
 import java.io.Serializable;
 

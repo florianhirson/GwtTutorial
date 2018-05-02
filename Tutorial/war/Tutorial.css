@@ -33,3 +33,11 @@ body {
 .addPanel {
   margin: 10px 0px 15px 0px;
 }
+
+.negativeChange {
+      color: red;
+}
+
+.errorMessage {
+	color: red;
+}

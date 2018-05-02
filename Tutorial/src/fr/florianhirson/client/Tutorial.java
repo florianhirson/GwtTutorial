@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import fr.florianhirson.shared.StockPrice;
+
 public class Tutorial  implements EntryPoint {
 	private static final int REFRESH_INTERVAL = 5000; // ms
 	private VerticalPanel mainPanel = new VerticalPanel();
@@ -34,6 +36,7 @@ public class Tutorial  implements EntryPoint {
 	private Label lastUpdatedLabel = new Label();
 	private ArrayList<String> stocks = new ArrayList<String>();
 	private StockPriceServiceAsync stockPriceSvc = GWT.create(StockPriceService.class);
+	private Label errorMsgLabel = new Label();
 	
 	/**
 	 * Entry point method.
@@ -58,6 +61,10 @@ public class Tutorial  implements EntryPoint {
 		addPanel.addStyleName("addPanel");
 
 		// Assemble Main panel.
+		errorMsgLabel.setStyleName("errorMessage");
+		errorMsgLabel.setVisible(false);
+
+		mainPanel.add(errorMsgLabel);
 		mainPanel.add(stocksFlexTable);
 		mainPanel.add(addPanel);
 		mainPanel.add(lastUpdatedLabel);
@@ -148,7 +155,14 @@ public class Tutorial  implements EntryPoint {
 		  // Set up the callback object.
 		  AsyncCallback<StockPrice[]> callback = new AsyncCallback<StockPrice[]>() {
 		    public void onFailure(Throwable caught) {
-		      // TODO: Do something with errors.
+		    	// If the stock code is in the list of delisted codes, display an error message.
+		    	String details = caught.getMessage();
+		    	if (caught instanceof DelistedException) {
+		    		details = "Company '" + ((DelistedException) caught).getSymbol() + "' was delisted";
+		    	}
+
+		    	errorMsgLabel.setText("Error: " + details);
+		    	errorMsgLabel.setVisible(true);
 		    }
 
 		    public void onSuccess(StockPrice[] result) {
@@ -176,6 +190,9 @@ public class Tutorial  implements EntryPoint {
 				DateTimeFormat.PredefinedFormat.DATE_TIME_MEDIUM);
 		lastUpdatedLabel.setText("Last update : " 
 				+ dateFormat.format(new Date()));
+		
+		// Clear any errors.
+		  errorMsgLabel.setVisible(false);
 	}
 
 	/**

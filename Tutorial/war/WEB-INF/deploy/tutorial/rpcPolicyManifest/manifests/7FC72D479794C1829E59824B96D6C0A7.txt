@@ -1,0 +1,2 @@
+serviceClass: fr.florianhirson.client.StockPriceService
+path: 07F2507D5D43D9FF8670666D8AC3B1AA.gwt.rpc
