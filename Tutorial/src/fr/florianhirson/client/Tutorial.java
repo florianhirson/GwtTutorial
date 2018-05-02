@@ -1,5 +1,7 @@
 package fr.florianhirson.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -22,6 +24,7 @@ public class Tutorial  implements EntryPoint {
   private TextBox newSymbolTextBox = new TextBox();
   private Button addStockButton = new Button("Add");
   private Label lastUpdatedLabel = new Label();
+  private ArrayList<String> stocks = new ArrayList<String>();
 
   /**
    * Entry point method.
@@ -84,9 +87,26 @@ public class Tutorial  implements EntryPoint {
 
       newSymbolTextBox.setText("");
 
-      // TODO Don't add the stock if it's already in the table.
-      // TODO Add the stock to the table
-      // TODO Add a button to remove this stock from the table.
+      // Don't add the stock if it's already in the table.
+      if (stocks.contains(symbol))
+    	  return;
+
+      // Add the stock to the table.
+      int row = stocksFlexTable.getRowCount();
+      stocks.add(symbol);
+      stocksFlexTable.setText(row, 0, symbol);
+      
+      // Add a button to remove this stock from the table.
+      Button removeStockButton = new Button("x");
+      removeStockButton.addClickHandler(new ClickHandler() {
+    	  public void onClick(ClickEvent event) {
+    		  int removedIndex = stocks.indexOf(symbol);
+    		  stocks.remove(removedIndex);
+    		  stocksFlexTable.removeRow(removedIndex + 1);
+    	  }
+      });
+      stocksFlexTable.setWidget(row, 3, removeStockButton);
+      
       // TODO Get the stock price.
   }
 }
